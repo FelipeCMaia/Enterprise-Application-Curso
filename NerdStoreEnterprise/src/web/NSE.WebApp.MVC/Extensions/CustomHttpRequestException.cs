@@ -7,23 +7,16 @@ namespace NSE.WebApp.MVC.Services
     [Serializable]
     internal class CustomHttpRequestException : Exception
     {
-        private HttpStatusCode statusCode;
+        public HttpStatusCode StatusCode;
 
-        public CustomHttpRequestException()
-        {
-        }
+        public CustomHttpRequestException() { }
+
+        public CustomHttpRequestException(string message, Exception innerException)
+            : base(message, innerException) { }
 
         public CustomHttpRequestException(HttpStatusCode statusCode)
         {
-            this.statusCode = statusCode;
+            StatusCode = statusCode;
         }
-
-        public CustomHttpRequestException(string message) : base(message)
-        {
-        }
-
-        public CustomHttpRequestException(string message, Exception innerException) : base(message, innerException)
-        {
-        }        
     }
 }
