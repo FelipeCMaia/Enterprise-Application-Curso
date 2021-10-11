@@ -9,9 +9,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using NSE.Identidade.API.Extensions;
 using NSE.Identidade.API.Models;
-
+using NSE.WebAPI.Core.Identidade;
 
 namespace NSE.Identidade.API.Controllers
 {    
@@ -33,7 +32,7 @@ namespace NSE.Identidade.API.Controllers
         [HttpPost("nova-conta")]
         public async Task<ActionResult> Registrar(UsuarioRegistro usuarioRegistro) 
         {
-            return new StatusCodeResult(403);
+            //return new StatusCodeResult(403);
             if (!ModelState.IsValid) return CustomResponse(ModelState);
 
             var user = new IdentityUser
