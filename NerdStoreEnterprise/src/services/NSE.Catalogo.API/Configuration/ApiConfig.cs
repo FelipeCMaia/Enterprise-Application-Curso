@@ -20,7 +20,7 @@ namespace NSE.Catalogo.API.Configuration
             services.AddDbContext<CatalogoContext>(options =>
                 options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddControllers();
+            services.AddControllers();            
 
             services.AddCors(options =>
             {

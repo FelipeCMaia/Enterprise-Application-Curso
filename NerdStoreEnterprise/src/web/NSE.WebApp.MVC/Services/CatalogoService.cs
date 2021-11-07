@@ -31,7 +31,7 @@ namespace NSE.WebApp.MVC.Services
 
         public async Task<IEnumerable<ProdutoViewModel>> ObterTodos()
         {
-            var response = await _httpClient.GetAsync("/catalogo/produtos/");
+            var response = await _httpClient.GetAsync("/catalogo/produtos");
 
             TratarErrosResponse(response);
 

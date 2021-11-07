@@ -97,7 +97,8 @@ namespace NSE.WebApp.MVC.Controllers
 
             await HttpContext.SignInAsync(
                 CookieAuthenticationDefaults.AuthenticationScheme,
-                new ClaimsPrincipal(claimsIdentity)
+                new ClaimsPrincipal(claimsIdentity),
+                authPropertys
                 );            
         }
 
