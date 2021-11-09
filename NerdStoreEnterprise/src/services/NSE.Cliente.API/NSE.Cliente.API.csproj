@@ -6,7 +6,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Applications\" />
+    <Folder Include="Applications\Events\" />
+    <Folder Include="Applications\Querys\" />
     <Folder Include="Controllers\" />
     <Folder Include="Services\" />
   </ItemGroup>
