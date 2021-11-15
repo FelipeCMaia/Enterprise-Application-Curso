@@ -1,10 +1,10 @@
-﻿using EasyNetQ;
-using FluentValidation.Results;
+﻿using FluentValidation.Results;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using NSE.Cliente.API.Applications.Commands;
 using NSE.Core.Mediator;
 using NSE.Core.Messages.Integration;
+using NSE.MessageBus;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -13,24 +13,36 @@ namespace NSE.Cliente.API.Services
 {
     public class RegistroClienteIntegrationHandler : BackgroundService
     {
-        private IBus _bus;
-        private readonly IServiceProvider _serviceProvider;        
+        private readonly IMessageBus _bus;
+        private readonly IServiceProvider _serviceProvider;
 
-        public RegistroClienteIntegrationHandler(IServiceProvider serviceProvider)
+        public RegistroClienteIntegrationHandler(IServiceProvider serviceProvider, IMessageBus bus)
         {
             _serviceProvider = serviceProvider;
+            _bus = bus;
+        }
+
+        private void SetResponder()
+        {
+            _bus.RespondAsync<UsuarioRegistradoIntegationEvent, ResponseMessage>(async request =>
+                await RegistrarCliente(request));
+
+            _bus.AdvancedBus.Connected += OnConnect;
         }
 
         protected override Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            _bus = RabbitHutch.CreateBus("host=192.168.0.104:5672");
-
-            _bus.Rpc.RespondAsync<UsuarioRegistradoIntegationEvent, ResponseMessage>(async request => new ResponseMessage(await RegistrarCliente(request)));
+            SetResponder();
 
             return Task.CompletedTask;
         }
 
-        private async Task<ValidationResult> RegistrarCliente(UsuarioRegistradoIntegationEvent message)
+        private void OnConnect(object sender, EventArgs e)
+        {
+            SetResponder();
+        }
+
+        private async Task<ResponseMessage> RegistrarCliente(UsuarioRegistradoIntegationEvent message)
         {
             var clienteCommand = new RegistrarClienteCommand(message.Id, message.Nome, message.Email, message.Cpf);
 
@@ -43,7 +55,7 @@ namespace NSE.Cliente.API.Services
                 sucesso = await mediator.EnviarComando(clienteCommand);
             }
 
-            return sucesso;
+            return new ResponseMessage(sucesso);
         }
     }
 }
