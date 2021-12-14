@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 
 namespace NSE.Carrinho.API.Model
 {
@@ -16,6 +17,24 @@ namespace NSE.Carrinho.API.Model
         {
             Id = Guid.NewGuid();
             ClienteId = clienteId;
+        }
+
+        public CarrinhoCliente() { }
+
+        internal void CalcularValorCarrinho()
+        {
+            ValorTotal = Itens.Sum(p => p.CalcularValor());
+        }
+
+        internal void AdicionarItem(CarrinhoItem item)
+        {
+            // validar se o item está ok!!
+
+            item.AssociarCarrinho(Id);
+
+            Itens.Add(item);
+            CalcularValorCarrinho();
+
         }
     }
 }

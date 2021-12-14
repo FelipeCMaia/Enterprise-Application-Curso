@@ -18,5 +18,15 @@ namespace NSE.Carrinho.API.Model
 
         public Guid CarrinhoId { get; set; }
         public CarrinhoCliente CarrinhoCliente { get; internal set; }
+
+        internal void AssociarCarrinho(Guid carrinhoId)
+        {
+            CarrinhoId = carrinhoId;
+        }
+
+        internal decimal CalcularValor()
+        {
+            return Quantidade * Valor;
+        }
     }
 }
