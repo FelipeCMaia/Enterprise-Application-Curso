@@ -22,6 +22,9 @@ namespace NSE.Catalogo.API.Data.Mappings
                 .IsRequired()
                 .HasColumnType("varchar(250)");
 
+            builder.Property(c => c.Valor)
+                .HasColumnType("decimal");
+
             builder.ToTable("Produtos");
         }
     }

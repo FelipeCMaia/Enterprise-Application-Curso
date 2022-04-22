@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using NSE.Carrinho.API.Model;
+using NSE.Carrinho.API.Models;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
@@ -19,11 +19,21 @@ namespace NSE.Carrinho.API.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Ignore<ValidationResult>();
+
             foreach (var property in modelBuilder.Model.GetEntityTypes().SelectMany(
                 e => e.GetProperties().Where(p => p.ClrType == typeof(string))))
+            {
                 property.SetColumnType("varchar(100)");
+            }
 
-            modelBuilder.Ignore<ValidationResult>();
+            foreach (var property in modelBuilder.Model.GetEntityTypes().SelectMany(
+                e => e.GetProperties().Where(p => p.ClrType == typeof(decimal))))
+            {
+                property.SetColumnType("decimal");
+            }
+
+            modelBuilder.Ignore<ValidationResult>();            
 
             modelBuilder.Entity<CarrinhoCliente>()
                 .HasIndex(c => c.ClienteId)
