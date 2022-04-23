@@ -147,7 +147,7 @@ namespace NSE.Carrinho.API.Controllers
         {
             if (carrinho.EhValido()) return true;
 
-            carrinho.ValidationResult.Errors.ToList().ForEach(e => AdicionarErroProcessamento(e.ErrorMessage);
+            carrinho.ValidationResult.Errors.ToList().ForEach(e => AdicionarErroProcessamento(e.ErrorMessage));
             return false;
         }
     }
