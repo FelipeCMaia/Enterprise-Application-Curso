@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NSE.Carrinho.API.Data;
 using NSE.Carrinho.API.Models;
@@ -10,6 +11,7 @@ using System.Threading.Tasks;
 
 namespace NSE.Carrinho.API.Controllers
 {
+    [Authorize]
     public class CarrinhoController : MainController
     {
         private readonly IAspNetUser _user;
@@ -24,20 +26,21 @@ namespace NSE.Carrinho.API.Controllers
         [HttpGet("carrinho")]
         public async Task<CarrinhoCliente> ObterCarrinho()
         {
-            return await ObterCarrinhoCliente() ?? new CarrinhoCliente();
+            var x = await ObterCarrinhoCliente();
+
+            return x ?? new CarrinhoCliente();
         }
 
         [HttpPost("carrinho")]
         public async Task<IActionResult> AdicionarItemCarrinho(CarrinhoItem item)
         {
-            var carrinho = await ObterCarrinhoCliente();
+            var carrinho = await ObterCarrinhoCliente();            
 
             if(carrinho == null)            
                 ManipularNovoCarrinho(item);
             else
                 ManipularCarrinhoExistente(carrinho, item);
-
-            ValidarCarrinho(carrinho);
+            
             if (!OperacaoValida()) return CustomResponse();
 
             await PersistirDados();
@@ -94,6 +97,7 @@ namespace NSE.Carrinho.API.Controllers
             var carrinho = new CarrinhoCliente(_user.ObterUserId());
             carrinho.AdicionarItem(item);
 
+            ValidarCarrinho(carrinho);
             _context.CarrinhoCliente.Add(carrinho);
         }
         private void ManipularCarrinhoExistente(CarrinhoCliente carrinho, CarrinhoItem item)
@@ -101,8 +105,9 @@ namespace NSE.Carrinho.API.Controllers
             var produtoItemExistente = carrinho.CarrinhoItemExistente(item);
 
             carrinho.AdicionarItem(item);
+            ValidarCarrinho(carrinho);
 
-            if(produtoItemExistente)
+            if (produtoItemExistente)
             {
                 _context.CarrinhoItens.Update(carrinho.ObterItemPorProdutoId(item.ProdutoId));
             }
@@ -110,7 +115,7 @@ namespace NSE.Carrinho.API.Controllers
             {
                 _context.CarrinhoItens.Add(item);
             }
-
+            
             _context.CarrinhoCliente.Update(carrinho);
         }
         private async Task<CarrinhoItem> ObterItemCarrinhoValidado(Guid produtoId, CarrinhoCliente carrinho, CarrinhoItem item = null)

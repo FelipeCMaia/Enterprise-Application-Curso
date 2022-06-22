@@ -16,6 +16,10 @@
             <main class="col-md-6 border-left">
                 <article class="content-body">
 
+                    <form asp-controller="Carrinho" asp-action="AdicionarItemCarrinho" method="post">
+                     
+                    <input type="hidden" id="ProdutoId" name="ProdutoId" value="@Model.Id"/>
+
                     <h2 class="title">@Model.Nome</h2>
 
                     <div class="rating-wrap my-3">
@@ -51,7 +55,7 @@
                                 <div class="form-group col-md flex-grow-0">
                                     <label>Quantidade</label>
                                     <div class="input-group input-spinner">
-                                        <select class="form-control">
+                                        <select class="form-control" id="Quantidade" name="Quantidade">
                                             <option value="1">1</option>
                                             <option value="2">2</option>
                                             <option value="3">3</option>
@@ -60,12 +64,12 @@
                                         </select>
                                     </div>
                                 </div>
-
                             </div>
                             <br />
-                            <a href="#" class="btn  btn-outline-primary">
+
+                            <button type="submit" class="btn btn-outline-primary">
                                 <span class="text">Adicionar ao carrinho</span> <i class="fas fa-shopping-cart"> &nbsp;</i>
-                            </a>
+                            </button>
 
                         }
                     }
@@ -73,6 +77,7 @@
                     <a asp-action="Index" class="btn  btn-info">
                         <span class="text">Voltar</span>
                     </a>
+                    </form>
                 </article>
             </main>
         </div>

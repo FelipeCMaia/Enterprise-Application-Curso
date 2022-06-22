@@ -6,10 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using NSE.Catalogo.API.Data;
 using NSE.WebAPI.Core.Identidade;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Text.Json.Serialization;
 
 namespace NSE.Catalogo.API.Configuration
 {
@@ -20,7 +17,7 @@ namespace NSE.Catalogo.API.Configuration
             services.AddDbContext<CatalogoContext>(options =>
                 options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddControllers();            
+            services.AddControllers();
 
             services.AddCors(options =>
             {

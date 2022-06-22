@@ -16,7 +16,6 @@ namespace NSE.WebApp.MVC.Services
             IOptions<AppSettings> settings)
         {
             httpClient.BaseAddress = new Uri(settings.Value.CatalogoUrl);
-
             _httpClient = httpClient;
         }
 

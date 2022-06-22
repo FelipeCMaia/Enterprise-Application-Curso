@@ -32,7 +32,7 @@ namespace NSE.WebApp.MVC.Controllers
             var produto = await _catalogoService.ObterPorId(itemProduto.ProdutoId);
 
             ValidarItemCarrinho(produto, itemProduto.Quantidade);
-            if(OperacaoValida()) return View("Index", await _carrinhoService.ObterCarrinho());
+            if(!OperacaoValida()) return View("Index", await _carrinhoService.ObterCarrinho());
 
             itemProduto.Nome = produto.Nome;
             itemProduto.Valor = produto.Valor;
@@ -85,7 +85,9 @@ namespace NSE.WebApp.MVC.Controllers
         private void ValidarItemCarrinho(ProdutoViewModel produto, int quantidade)
         {
             if (produto == null) AdicionarErroValidacao("Produto inexistente!");
+
             if (quantidade < 1) AdicionarErroValidacao($"Escolha ao menos uma unidade do produto {produto.Nome}");
+
             if (quantidade > produto.QuantidadeEstoque) AdicionarErroValidacao($"O produto {produto.Nome} possui {produto.QuantidadeEstoque} unidades em estoque, você selecionou {quantidade}");
         }
     }

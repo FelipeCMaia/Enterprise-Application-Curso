@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using NSE.Carrinho.API.Data;
 using NSE.WebAPI.Core.Identidade;
+using System.Text.Json.Serialization;
 
 namespace NSE.Carrinho.API.Configuration
 {
@@ -16,7 +17,10 @@ namespace NSE.Carrinho.API.Configuration
             services.AddDbContext<CarrinhoContext>(options =>
                 options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddControllers();
+            services.AddControllers().AddJsonOptions(x =>
+                x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles)
+            .AddNewtonsoftJson(x =>
+                x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore); ;
 
             services.AddCors(options =>
             {

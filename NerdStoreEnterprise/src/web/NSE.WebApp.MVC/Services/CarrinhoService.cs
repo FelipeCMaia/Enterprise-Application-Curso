@@ -13,8 +13,8 @@ namespace NSE.WebApp.MVC.Services
 
         public CarrinhoService(HttpClient httpClient, IOptions<AppSettings> settings)
         {
+            httpClient.BaseAddress = new Uri(settings.Value.CarrinhoUrl);
             _httpClient = httpClient;
-            _httpClient.BaseAddress = new Uri(settings.Value.CarrinhoUrl);
         }
 
         public async Task<CarrinhoViewModel> ObterCarrinho()
@@ -23,7 +23,9 @@ namespace NSE.WebApp.MVC.Services
 
             TratarErrosResponse(response);
 
-            return await DeserializarObjetoResponse<CarrinhoViewModel>(response);
+            var carrinho = await DeserializarObjetoResponse<CarrinhoViewModel>(response);
+
+            return carrinho;
         }
 
         public async Task<ResponseResult> AdicionarItemCarrinho(ItemProdutoViewModel produto)
@@ -55,12 +57,7 @@ namespace NSE.WebApp.MVC.Services
             if (!TratarErrosResponse(response)) return await DeserializarObjetoResponse<ResponseResult>(response);
 
             return RetornoOk();
-        }
-
-        Task<CarrinhoViewModel> ICarrinhoService.ObterCarrinho()
-        {
-            throw new NotImplementedException();
-        }
+        }        
 
         //public Task<ResponseResult> AdicionarItemCarrinho(ItemProdutoViewModel produto)
         //{
