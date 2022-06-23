@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31624.102
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32414.318
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{AE4CFBFA-702C-4A72-9CE0-C477987E63E3}"
 EndProject
@@ -49,7 +49,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NSE.WebAPI.Core", "src\buil
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MessageBus", "MessageBus", "{3B99080C-5A0D-4D52-BA37-2577CA3F35B0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NSE.MessageBus", "src\building blocks\NSE.MessageBus\NSE.MessageBus.csproj", "{636B2DA6-2A23-4578-A840-BC0541F10DD1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NSE.MessageBus", "src\building blocks\NSE.MessageBus\NSE.MessageBus.csproj", "{636B2DA6-2A23-4578-A840-BC0541F10DD1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ApiGateways", "ApiGateways", "{CD93A529-15D4-446F-A278-6E6DC5D8F73E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Compras", "Compras", "{EB08FF05-3999-41ED-8EEF-3EFDF62A3FF6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NSE.Bff.Compras", "src\api gateways\NSE.Bff.Compras\NSE.Bff.Compras.csproj", "{9D7C1C0B-4994-4823-8CF4-A337A2F08210}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -97,6 +103,10 @@ Global
 		{636B2DA6-2A23-4578-A840-BC0541F10DD1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{636B2DA6-2A23-4578-A840-BC0541F10DD1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{636B2DA6-2A23-4578-A840-BC0541F10DD1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9D7C1C0B-4994-4823-8CF4-A337A2F08210}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9D7C1C0B-4994-4823-8CF4-A337A2F08210}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9D7C1C0B-4994-4823-8CF4-A337A2F08210}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9D7C1C0B-4994-4823-8CF4-A337A2F08210}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -125,6 +135,9 @@ Global
 		{1CEB27B7-12EA-40A7-8F44-CB4E81EF885C} = {3BC169AF-BEBF-4FAC-A65C-EA09BF236991}
 		{3B99080C-5A0D-4D52-BA37-2577CA3F35B0} = {64D0ED5A-494C-4085-A4DF-9BB72244918C}
 		{636B2DA6-2A23-4578-A840-BC0541F10DD1} = {3B99080C-5A0D-4D52-BA37-2577CA3F35B0}
+		{CD93A529-15D4-446F-A278-6E6DC5D8F73E} = {AE4CFBFA-702C-4A72-9CE0-C477987E63E3}
+		{EB08FF05-3999-41ED-8EEF-3EFDF62A3FF6} = {CD93A529-15D4-446F-A278-6E6DC5D8F73E}
+		{9D7C1C0B-4994-4823-8CF4-A337A2F08210} = {EB08FF05-3999-41ED-8EEF-3EFDF62A3FF6}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {CA84AF13-3639-442E-A816-88EB7A9C2F8E}
