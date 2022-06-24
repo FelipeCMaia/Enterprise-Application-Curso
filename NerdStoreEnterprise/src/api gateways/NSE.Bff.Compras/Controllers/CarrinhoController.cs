@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using NSE.Bff.Compras.Services;
 using NSE.WebAPI.Core.Controllers;
 using System.Threading.Tasks;
 
@@ -8,6 +9,17 @@ namespace NSE.Bff.Compras.Controllers
     [Authorize]
     public class CarrinhoController : MainController
     {
+        private readonly ICarrinhoService _carrinhoService;
+        private readonly ICatalogoService _catalogoService;
+
+        public CarrinhoController(
+            ICarrinhoService carrinhoService, 
+            ICatalogoService catalogoService)
+        {
+            _carrinhoService = carrinhoService;
+            _catalogoService = catalogoService;
+        }
+
         [HttpGet]
         [Route("compras/carrinho")]
         public async Task<IActionResult> Index()
