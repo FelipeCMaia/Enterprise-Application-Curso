@@ -4,11 +4,11 @@ using Polly.Retry;
 using System;
 using System.Net.Http;
 
-namespace NSE.WebApp.MVC.Configuration
+namespace NSE.WebAPI.Core.Extensions
 {
-    public class PollyExtensions
+    public static class PollyExtensions
     {
-        public static AsyncRetryPolicy<HttpResponseMessage> WaitAndRetryPolicy()
+        public static AsyncRetryPolicy<HttpResponseMessage> EsperarTentar()
         {
             var retryWaitPolicy = HttpPolicyExtensions
                 .HandleTransientHttpError()
