@@ -6,14 +6,12 @@ using System;
 using System.Threading.Tasks;
 
 namespace NSE.WebApp.MVC.Controllers
-{    
-    [Authorize]
+{        
     public class CarrinhoController : MainController
     {
         private readonly IComprasBffService _comprasBffService;        
 
         public CarrinhoController(IComprasBffService comprasService)
-
         {
             _comprasBffService = comprasService;            
         }
@@ -56,6 +54,17 @@ namespace NSE.WebApp.MVC.Controllers
             if (ResponsePossuiErros(resposta)) return View("Index", await _comprasBffService.ObterCarrinho());
 
             return RedirectToAction("Index");
-        }       
+        }
+
+        [HttpPost]
+        [Route("carrinho/aplicar-voucher")]
+        public async Task<IActionResult> AplicarVoucher(string voucherCodigo)
+        {
+            var resposta = await _comprasBffService.AplicarVoucherCarrinho(voucherCodigo);
+
+            if (ResponsePossuiErros(resposta)) return View("Index", await _comprasBffService.ObterCarrinho());
+
+            return RedirectToAction("Index");
+        }
     }
 }

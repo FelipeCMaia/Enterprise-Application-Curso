@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Pedidos\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="NetDevPack" Version="6.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\src\building blocks\NSE.Core\NSE.Core.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,50 +1,43 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using FluentValidation.Results;
+using Microsoft.EntityFrameworkCore;
 using NSE.Core.Data;
-using System.Threading.Tasks;
-using System.Linq;
-using NSE.Cliente.API.Models;
-using NSE.Core.Mediator;
 using NSE.Core.DomainObjects;
-using System.ComponentModel.DataAnnotations;
+using NSE.Core.Mediator;
 using NSE.Core.Messages;
+using NSE.Pedidos.Domain.Vouchers;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace NSE.Cliente.API.Data
+namespace NSE.Pedidos.Infra.Data
 {
-    public sealed class ClientesContext : DbContext, IUnitOfWork
+    public sealed class PedidosContext : DbContext, IUnitOfWork
     {
-        public readonly IMediatorHandler _mediatorHandler;
+        private readonly IMediatorHandler _mediatorHandler;
 
-
-        public ClientesContext(DbContextOptions<ClientesContext> options, IMediatorHandler mediatorHandler) : base(options)
+        public PedidosContext(DbContextOptions<PedidosContext> options, IMediatorHandler mediatorHandler) : base(options)
         {
             _mediatorHandler = mediatorHandler;
-
-            ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
-            ChangeTracker.AutoDetectChangesEnabled = false;
         }
 
-        public DbSet<Models.Cliente> Clientes { get; set; }
-        public DbSet<Endereco> Enderecos{ get; set; }
+        public DbSet<Voucher> Vouchers { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-
-            modelBuilder.Ignore<ValidationResult>();
-            modelBuilder.Ignore<Event>();
-
-            foreach (var property in modelBuilder.Model.GetEntityTypes().SelectMany(
-                e=> e.GetProperties().Where(p => p.ClrType == typeof(string))))
+            foreach (var property in modelBuilder.Model.GetEntityTypes().SelectMany(e => e.GetProperties().Where(p => p.ClrType == typeof(string))))
+            {
                 property.SetColumnType("varchar(100)");
+            }
 
-            foreach (var relationship in modelBuilder.Model.GetEntityTypes()
-                .SelectMany(e => e.GetForeignKeys())) relationship.DeleteBehavior = DeleteBehavior.ClientSetNull;
+            modelBuilder.Ignore<Event>();
+            modelBuilder.Ignore<ValidationResult>();
 
-            modelBuilder.ApplyConfigurationsFromAssembly(typeof(ClientesContext).Assembly);
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(PedidosContext).Assembly);
         }
 
         public async Task<bool> Commit()
         {
             var sucesso = await base.SaveChangesAsync() > 0;
+
             if (sucesso) await _mediatorHandler.PublicarEventos(this);
 
             return sucesso;

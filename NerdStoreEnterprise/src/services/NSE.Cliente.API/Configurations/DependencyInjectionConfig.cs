@@ -6,12 +6,7 @@ using NSE.Cliente.API.Applications.Events;
 using NSE.Cliente.API.Data;
 using NSE.Cliente.API.Data.Repository;
 using NSE.Cliente.API.Models;
-using NSE.Cliente.API.Services;
 using NSE.Core.Mediator;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace NSE.Cliente.API.Configurations
 {
