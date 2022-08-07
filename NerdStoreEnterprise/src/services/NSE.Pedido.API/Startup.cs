@@ -43,7 +43,7 @@ namespace NSE.Pedidos.API
 
             services.AddSwaggerConfiguration();            
 
-            //services.AddMessageBusConfiguration(Configuration);
+            services.AddMessageBusConfiguration(Configuration);
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
