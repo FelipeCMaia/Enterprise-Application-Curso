@@ -22,8 +22,7 @@ namespace NSE.WebAPI.Core.Identidade
             {
                 x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            })
-            .AddJwtBearer(x =>
+            }).AddJwtBearer(x =>
             {
                 x.RequireHttpsMetadata = true;
                 x.SaveToken = true;
@@ -42,7 +41,7 @@ namespace NSE.WebAPI.Core.Identidade
         public static void UseAuthConfiguration(this IApplicationBuilder app)
         {
             app.UseAuthentication();
-            app.UseAuthorization();
+            app.UseAuthorization();           
         }
     }
 }

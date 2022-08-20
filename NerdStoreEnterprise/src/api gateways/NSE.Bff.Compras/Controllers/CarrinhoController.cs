@@ -1,11 +1,11 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NSE.Bff.Compras.Models;
 using NSE.Bff.Compras.Services;
 using NSE.WebAPI.Core.Controllers;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace NSE.Bff.Compras.Controllers
 {
@@ -18,7 +18,7 @@ namespace NSE.Bff.Compras.Controllers
 
         public CarrinhoController(
             ICarrinhoService carrinhoService,
-            ICatalogoService catalogoService, 
+            ICatalogoService catalogoService,
             IPedidoService pedidoService)
         {
             _carrinhoService = carrinhoService;
@@ -37,8 +37,8 @@ namespace NSE.Bff.Compras.Controllers
         [Route("compras/carrinho-quantidade")]
         public async Task<int> ObterQuantidadeCarrinho()
         {
-            var carrinho = await _carrinhoService.ObterCarrinho();
-            return carrinho?.Itens.Sum(i => i.Quantidade) ?? 0;
+            var quantidade = await _carrinhoService.ObterCarrinho();
+            return quantidade?.Itens.Sum(i => i.Quantidade) ?? 0;
         }
 
         [HttpPost]
@@ -46,13 +46,12 @@ namespace NSE.Bff.Compras.Controllers
         public async Task<IActionResult> AdicionarItemCarrinho(ItemCarrinhoDTO itemProduto)
         {
             var produto = await _catalogoService.ObterPorId(itemProduto.ProdutoId);
-            
-            await ValidarItemCarrinho(produto, itemProduto.Quantidade);
-            
-            if(!OperacaoValida()) return CustomResponse();
+
+            await ValidarItemCarrinho(produto, itemProduto.Quantidade, true);
+            if (!OperacaoValida()) return CustomResponse();
 
             itemProduto.Nome = produto.Nome;
-            itemProduto.Valor = produto.Valor; 
+            itemProduto.Valor = produto.Valor;
             itemProduto.Imagem = produto.Imagem;
 
             var resposta = await _carrinhoService.AdicionarItemCarrinho(itemProduto);
@@ -64,13 +63,12 @@ namespace NSE.Bff.Compras.Controllers
         [Route("compras/carrinho/items/{produtoId}")]
         public async Task<IActionResult> AtualizarItemCarrinho(Guid produtoId, ItemCarrinhoDTO itemProduto)
         {
-            var produto = await _catalogoService.ObterPorId(itemProduto.ProdutoId);
+            var produto = await _catalogoService.ObterPorId(produtoId);
 
             await ValidarItemCarrinho(produto, itemProduto.Quantidade);
+            if (!OperacaoValida()) return CustomResponse();
 
-            if (!OperacaoValida()) return CustomResponse();            
-
-            var resposta = await _carrinhoService.AtualizaItemCarrinho(produtoId, itemProduto);
+            var resposta = await _carrinhoService.AtualizarItemCarrinho(produtoId, itemProduto);
 
             return CustomResponse(resposta);
         }
@@ -81,9 +79,9 @@ namespace NSE.Bff.Compras.Controllers
         {
             var produto = await _catalogoService.ObterPorId(produtoId);
 
-            if(produto == null)
+            if (produto == null)
             {
-                AdicionarErroProcessamento("Produto Inexistente!");
+                AdicionarErroProcessamento("Produto inexistente!");
                 return CustomResponse();
             }
 
@@ -107,13 +105,6 @@ namespace NSE.Bff.Compras.Controllers
 
             return CustomResponse(resposta);
         }
-
-        //[HttpPost]
-        //[Route("compras/carrinho/aplicar-voucher")]
-        //public async Task<IActionResult> AplicarVoucher()
-        //{
-        //    return CustomResponse();
-        //}
 
         private async Task ValidarItemCarrinho(ItemProdutoDTO produto, int quantidade, bool adicionarProduto = false)
         {

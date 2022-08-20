@@ -5,11 +5,12 @@
     <UserSecretsId>9ebddbf2-bc2d-449e-9248-f24d3b448bf7</UserSecretsId>
   </PropertyGroup>
 
-  <ItemGroup>	 
-    <ProjectReference Include="..\..\..\NSE.Pedidos.Infra\NSE.Pedidos.Infra.csproj" />
-	<ProjectReference Include="..\..\building blocks\NSE.Core\NSE.Core.csproj" />
-	  <ProjectReference Include="..\..\building blocks\NSE.MessageBus\NSE.MessageBus.csproj" />
-	<ProjectReference Include="..\..\building blocks\NSE.WebAPI.Core\NSE.WebAPI.Core.csproj" />
+  <ItemGroup>	     
+		<ProjectReference Include="..\..\building blocks\NSE.Core\NSE.Core.csproj" />
+		<ProjectReference Include="..\..\building blocks\NSE.MessageBus\NSE.MessageBus.csproj" />
+		<ProjectReference Include="..\..\building blocks\NSE.WebAPI.Core\NSE.WebAPI.Core.csproj" />
+		<ProjectReference Include="..\NSE.Pedidos.Domain\NSE.Pedidos.Domain.csproj" />
+		<ProjectReference Include="..\NSE.Pedidos.Infra\NSE.Pedidos.Infra.csproj" />
   </ItemGroup>
 
 	<ItemGroup>

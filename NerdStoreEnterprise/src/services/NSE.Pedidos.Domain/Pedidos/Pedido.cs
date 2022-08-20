@@ -1,8 +1,10 @@
-﻿using System;
+﻿using NSE.Core.DomainObjects;
+using NSE.Pedidos.Domain.Vouchers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using NSE.Core.DomainObjects;
-using NSE.Pedidos.Domain.Vouchers;
+
+
 
 namespace NSE.Pedidos.Domain.Pedidos
 {

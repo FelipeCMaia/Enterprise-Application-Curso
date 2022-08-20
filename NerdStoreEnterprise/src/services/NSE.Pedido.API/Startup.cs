@@ -1,8 +1,6 @@
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -33,15 +31,15 @@ namespace NSE.Pedidos.API
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMediatR(typeof(Startup));
-
-            services.RegisterServices();
-
             services.AddApiConfiguration(Configuration);
 
             services.AddJwtConfiguration(Configuration);
 
-            services.AddSwaggerConfiguration();            
+            services.AddSwaggerConfiguration();
+
+            services.AddMediatR(typeof(Startup));
+
+            services.RegisterServices();
 
             services.AddMessageBusConfiguration(Configuration);
         }

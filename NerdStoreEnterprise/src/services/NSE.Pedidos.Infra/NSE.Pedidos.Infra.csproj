@@ -17,7 +17,7 @@
 	</ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\NSE.Pedidos.Domain\NSE.Pedidos.Domain.csproj" />
+    <ProjectReference Include="..\NSE.Pedidos.Domain\NSE.Pedidos.Domain.csproj" />	  
   </ItemGroup>
 
 </Project>

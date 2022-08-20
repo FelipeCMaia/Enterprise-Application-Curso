@@ -10,9 +10,9 @@ namespace NSE.Bff.Compras.Services
 {
     public interface ICarrinhoService
     {
-        Task<CarrinhoDTO> ObterCarrinho();        
+        Task<CarrinhoDTO> ObterCarrinho();
         Task<ResponseResult> AdicionarItemCarrinho(ItemCarrinhoDTO produto);
-        Task<ResponseResult> AtualizaItemCarrinho(Guid produtoId, ItemCarrinhoDTO carrinho);
+        Task<ResponseResult> AtualizarItemCarrinho(Guid produtoId, ItemCarrinhoDTO carrinho);
         Task<ResponseResult> RemoverItemCarrinho(Guid produtoId);
         Task<ResponseResult> AplicarVoucherCarrinho(VoucherDTO voucher);
     }
@@ -32,8 +32,8 @@ namespace NSE.Bff.Compras.Services
             var response = await _httpClient.GetAsync("/carrinho/");
 
             TratarErrosResponse(response);
-           
-            return await DeserializarObjetoResponse<CarrinhoDTO>(response); ;
+
+            return await DeserializarObjetoResponse<CarrinhoDTO>(response);
         }
 
         public async Task<ResponseResult> AdicionarItemCarrinho(ItemCarrinhoDTO produto)
@@ -47,16 +47,16 @@ namespace NSE.Bff.Compras.Services
             return RetornoOk();
         }
 
-        public async Task<ResponseResult> AtualizaItemCarrinho(Guid produtoId, ItemCarrinhoDTO produto)
+        public async Task<ResponseResult> AtualizarItemCarrinho(Guid produtoId, ItemCarrinhoDTO carrinho)
         {
-            var itemContent = ObterConteudo(produto);
+            var itemContent = ObterConteudo(carrinho);
 
-            var response = await _httpClient.PutAsync($"/carrinho/{produtoId}", itemContent);
+            var response = await _httpClient.PutAsync($"/carrinho/{carrinho.ProdutoId}", itemContent);
 
             if (!TratarErrosResponse(response)) return await DeserializarObjetoResponse<ResponseResult>(response);
 
             return RetornoOk();
-        } 
+        }
 
         public async Task<ResponseResult> RemoverItemCarrinho(Guid produtoId)
         {
@@ -71,7 +71,7 @@ namespace NSE.Bff.Compras.Services
         {
             var itemContent = ObterConteudo(voucher);
 
-            var response = await _httpClient.PostAsync($"/carrinho/aplicar-voucher", itemContent);
+            var response = await _httpClient.PostAsync("/carrinho/aplicar-voucher/", itemContent);
 
             if (!TratarErrosResponse(response)) return await DeserializarObjetoResponse<ResponseResult>(response);
 

@@ -19,7 +19,7 @@ namespace NSE.WebAPI.Core.Usuario
         public string Name => _accessor.HttpContext.User.Identity.Name;
 
         public Guid ObterUserId()
-        {
+        {            
             return EstaAutenticado() ? Guid.Parse(_accessor.HttpContext.User.GetUserId()) : Guid.Empty;
         }
 

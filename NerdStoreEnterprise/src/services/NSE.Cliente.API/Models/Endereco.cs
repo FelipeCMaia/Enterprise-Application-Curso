@@ -1,4 +1,5 @@
 ﻿using System;
+using FluentValidation;
 using NSE.Core.DomainObjects;
 
 namespace NSE.Cliente.API.Models
@@ -28,5 +29,19 @@ namespace NSE.Cliente.API.Models
 
         // EF Relation
         public Cliente Cliente { get; private set; }
+
+        public Endereco(string logradouro, string numero, string complemento, string bairro, string cep, string cidade, string estado, Guid clienteId)
+        {
+            Logradouro = logradouro;
+            Numero = numero;
+            Complemento = complemento;
+            Bairro = bairro;
+            Cep = cep;
+            Cidade = cidade;
+            Estado = estado;
+            ClienteId = clienteId;
+        }
+
+        public Endereco() { }
     }
 }

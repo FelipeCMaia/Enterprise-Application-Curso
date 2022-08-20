@@ -6,12 +6,9 @@ using MediatR;
 using NSE.Core.Messages;
 using NSE.Pedidos.API.Application.DTO;
 using NSE.Pedidos.API.Application.Events;
-//using NSE.Pedidos.API.Application.Events;
-using NSE.Pedidos.Domain;
 using NSE.Pedidos.Domain.Pedidos;
 using NSE.Pedidos.Domain.Vouchers;
 using NSE.Pedidos.Domain.Vouchers.Specs;
-//using NSE.Pedidos.Domain.Specs;
 
 namespace NSE.Pedidos.API.Application.Commands
 {
@@ -30,27 +27,26 @@ namespace NSE.Pedidos.API.Application.Commands
 
         public async Task<ValidationResult> Handle(AdicionarPedidoCommand message, CancellationToken cancellationToken)
         {
-            // Validacao do comando
-            if (!message.EhValido()) return ValidationResult;
+            // Validação do comando
+            if (!message.EhValido()) return message.ValidationResult;
 
             // Mapear Pedido
             var pedido = MapearPedido(message);
 
             // Aplicar voucher se houver
-            if(!await AplicarVoucher(message, pedido)) return ValidationResult;
+            if (!await AplicarVoucher(message, pedido)) return ValidationResult;
 
-            // Validar Pedido
+            // Validar pedido
             if (!ValidarPedido(pedido)) return ValidationResult;
 
             // Processar pagamento
             if (!ProcessarPagamento(pedido)) return ValidationResult;
 
-            // Se pagamento tudo Ok!
+            // Se pagamento tudo ok!
             pedido.AutorizarPedido();
 
-            // Adicionar Evento
+            // Adicionar Evento            
             pedido.AdicionaEvento(new PedidoRealizadoEvent(pedido.Id, pedido.ClienteId));
-
 
             // Adicionar Pedido Repositorio
             _pedidoRepository.Adicionar(pedido);
