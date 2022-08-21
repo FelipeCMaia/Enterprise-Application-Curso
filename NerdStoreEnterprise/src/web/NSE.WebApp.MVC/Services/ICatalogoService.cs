@@ -8,7 +8,7 @@ namespace NSE.WebApp.MVC.Services
 {
     public interface ICatalogoService
     {
-        Task<IEnumerable<ProdutoViewModel>> ObterTodos();
+        Task<PagedViewModel<ProdutoViewModel>> ObterTodos(int pageSize, int pageIndex, string query);
         Task<ProdutoViewModel> ObterPorId(Guid id);
     }
 
