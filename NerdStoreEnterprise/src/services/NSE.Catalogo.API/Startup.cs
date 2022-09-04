@@ -43,7 +43,7 @@ namespace NSE.Catalogo.API
         {
             app.UseSwaggerConfiguration();
 
-            app.UseApiConfiguration(env);
+            app.UseApiConfiguration(env);            
         }
     }
 }

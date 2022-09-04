@@ -51,6 +51,7 @@ namespace NSE.Bff.Compras
             app.UseSwaggerConfiguration();
 
             app.UseApiConfiguration(env);
+            
         }
     }
 }

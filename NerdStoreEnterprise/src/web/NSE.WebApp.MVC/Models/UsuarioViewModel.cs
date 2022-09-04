@@ -44,6 +44,7 @@ namespace NSE.WebApp.MVC.Models
 
     public class UsuarioRespostaLogin
     {
+        public string RefreshToken {  get; set; }
         public string AccessToken { get; set; }
         public double ExpiresIn { get; set; }
         public UsuarioToken UsuarioToken { get; set; }
