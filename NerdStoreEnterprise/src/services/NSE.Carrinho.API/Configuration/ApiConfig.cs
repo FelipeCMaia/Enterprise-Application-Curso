@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using NSE.Carrinho.API.Data;
+using NSE.Carrinho.API.Services.gRPC;
 using NSE.WebAPI.Core.Identidade;
 using System.Text.Json.Serialization;
 
@@ -20,7 +21,9 @@ namespace NSE.Carrinho.API.Configuration
             services.AddControllers().AddJsonOptions(x =>
                 x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles)
             .AddNewtonsoftJson(x =>
-                x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore); ;
+                x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+
+            services.AddGrpc();
 
             services.AddCors(options =>
             {
@@ -51,6 +54,7 @@ namespace NSE.Carrinho.API.Configuration
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapGrpcService<CarrinhoGrpcService>().RequireCors("Total");
             });
         }
     }

@@ -124,7 +124,7 @@ namespace NSE.WebApp.MVC.Services
         public bool TokenExpirado()
         {
             var jwt = _user.ObterUserToken();
-            if (jwt is null) return false;
+            if (string.IsNullOrEmpty(jwt)) return false;
 
             var token = ObterTokenFormatado(jwt);
             return token.ValidTo.ToLocalTime() < DateTime.Now;

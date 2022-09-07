@@ -43,6 +43,8 @@ namespace NSE.Bff.Compras
 
             services.AddSwaggerConfiguration();
 
+            services.ConfigureGrpcServices(Configuration);
+
             services.RegisterServices();
         }
 
